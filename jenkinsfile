@@ -1,8 +1,12 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven-3.9.9'   // 👈 Use the *exact name* from Jenkins → Manage Jenkins → Tools → Maven installations
+    }
+
     environment {
-        SERVER_IP    ='54.157.200.91'
+        SERVER_IP    = '54.157.200.91'
         SSH_CRED_ID  = 'student-key'
         TOMCAT_PATH  = '/var/lib/tomcat10/webapps'
         TOMCAT_SVC   = 'tomcat10'
@@ -11,7 +15,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url:'https://github.com/iamSonaliGhuge/student-app-deploy.git'
+                git branch: 'main', url: 'https://github.com/iamSonaliGhuge/student-app-deploy.git'
             }
         }
 
@@ -41,10 +45,10 @@ pipeline {
 
     post {
         success {
-            echo "App deployed! Visit: http://${SERVER_IP}:8080/"
+            echo "✅ App deployed successfully! Visit: http://${SERVER_IP}:8080/"
         }
         failure {
-            echo "Deployment failed."
+            echo "❌ Deployment failed."
         }
     }
 }
